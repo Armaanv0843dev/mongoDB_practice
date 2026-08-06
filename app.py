@@ -7,14 +7,17 @@ from database import collection
 # Sidebar
 # -------------------------
 
+
 page = st.sidebar.radio(
     "Navigation",
-    ["Home","Add Records","Show Records"]
+    ["Home","Add Records","Show Records","Find Records"]
 )
+
 
 # ==========================================================
 # HOME PAGE
 # ==========================================================
+
 
 if page == "Home":
 
@@ -42,10 +45,11 @@ if page == "Home":
     """)
 
 
-
 # ==========================================================
 # ADD RECORD PAGE
 # ==========================================================
+
+
 elif page == "Add Records":
     st.title("➕ Add New Record")
     st.write("""
@@ -81,15 +85,12 @@ elif page == "Add Records":
         st.success("Inserted Successfully")
 
 
-
-
-
-
-
 # ==========================================================
 # VIEW RECORD PAGE
 # ==========================================================
-else:
+
+
+elif page == "Show Records":
 
     st.title("📋 View Records")
 
@@ -106,11 +107,55 @@ else:
     """)
 
 
-    if st.button("Show All Students"):
+    # if st.button("Show All Students"):
 
-        students = list(collection.find())
+    students = list(collection.find())
 
-        df = pd.DataFrame(students)
+    df = pd.DataFrame(students)
 
-        st.dataframe(df)
+    st.dataframe(df)
+
+
+# ==========================================================
+# VIEW RECORD PAGE
+# ==========================================================
+
+
+else:
+
+    st.title("🔍 Find Records")
+
+    st.write("""
+    Search for a specific record stored in the MongoDB database.
+    Enter the required details below to quickly locate matching records.
+    """)
+
+    st.info("""
+    📌 Instructions:
+    - Enter the record name in the search field.
+    - Click **Search** to find matching records.
+    - If a matching record exists, it will be displayed below.
+    - If no record is found, an appropriate message will be shown.
+    """)
+
+    search_name = st.text_input("Enter the name:",placeholder="Search by name")
+
+    if search_name:
+        results = collection.find({
+            "name":{
+                "$regex" : search_name, # "$regex" → partial match karega
+                "$options" : "i"  # "i" --> CASE-insensitive (armaan, Armaan, ARMAAN sab mil jayenge).
+            }
+        })
+    else:
+        results = collection.find()
+
+    data = list(results)
+
+    if data:
+        df = pd.DataFrame(data)
+        df.drop("_id", axis=1, inplace=True)
+        st.dataframe(df, use_container_width=True)
+    else:
+        st.warning("No matching record found.")
 
