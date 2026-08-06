@@ -5,11 +5,12 @@ A simple **Student Record Management System** built using **Python, Streamlit, a
 ---
 
 ### CRUD 
-C --> Create 
-R --> Retrieve(find)
-U --> Update
-D --> Delete
+* C --> Create 
+* R --> Retrieve(find)
+* U --> Update
+* D --> Delete
 
+---
 
 ## 🚀 Features
 
