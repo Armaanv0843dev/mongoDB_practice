@@ -16,8 +16,8 @@ D --> Delete
 * ➕ Add a new student  (C)
 * 📋 View all student records (R)
 * 🔍 Search a student by name (R)
-* ✏️ Update student details (Learning)
-* ❌ Delete a student record (Learning)
+* ✏️ Update student details (Learning) (U)
+* ❌ Delete a student record (Learning) (D)
 * 💾 Store data in a local MongoDB database
 * 🖥️ Simple and user-friendly Streamlit interface
 
