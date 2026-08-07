@@ -20,3 +20,11 @@ def update_record(old_name, new_name, new_age, new_course, new_email, new_phone)
             }
         }
     )
+
+
+
+def delete_record(name):
+
+    result = collection.delete_one({"name": name})
+
+    return result.deleted_count

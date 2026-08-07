@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from database import collection
 from database import update_record
+from database import delete_record
 
 
 # -------------------------
@@ -11,7 +12,7 @@ from database import update_record
 
 page = st.sidebar.radio(
     "Navigation",
-    ["Home","Add Records","Show Records","Find Records","Update Records"]
+    ["Home","Add Records","Show Records","Find Records","Update Records","Delete Records"]
 )
 
 
@@ -161,7 +162,9 @@ elif page == "Find Records":
         st.warning("No matching record found.")
 
 
-
+# ==========================================================
+# UPDATE PAGE
+# ==========================================================
 
 
 elif page == "Update Records":
@@ -247,3 +250,55 @@ elif page == "Update Records":
                 "email": new_email,
                 "phone": new_phone
             }
+
+
+# ==========================================================
+# DELETE PAGE
+# ==========================================================
+
+else: 
+
+    st.title("🗑️ Delete Record")
+
+    st.write("""
+    Delete an existing record from the MongoDB database.
+    Search for a record by name and permanently remove it.
+    """)
+
+    st.warning("""
+    ⚠️ Warning:
+    Deleted records cannot be recovered.
+    """)
+
+    search_name = st.text_input("Enter Name to Search and Delete")
+
+    if st.button("Search"):
+
+        record = collection.find_one({"name": search_name})
+
+        if record:
+            st.session_state.delete_record = record
+        else:
+            st.session_state.delete_record = None
+            st.error("Record Not Found")
+
+    if "delete_record" in st.session_state and st.session_state.delete_record:
+
+        record = st.session_state.delete_record
+
+        st.write("### Record Details")
+
+        st.write(f"**Name:** {record['name']}")
+        st.write(f"**Age:** {record['age']}")
+        st.write(f"**Course:** {record['course']}")
+        st.write(f"**Email:** {record['email']}")
+        st.write(f"**Phone:** {record['phone']}")
+
+    if st.button("Delete"):
+
+        deleted = delete_record(search_name)
+
+        if deleted:
+            st.success("✅ Record Deleted Successfully!")
+        else:
+            st.error("❌ Record Not Found.")
