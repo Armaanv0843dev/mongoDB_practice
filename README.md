@@ -18,7 +18,7 @@ A simple **Student Record Management System** built using **Python, Streamlit, a
 * 📋 View all student records (R)
 * 🔍 Search a student by name (R)
 * ✏️ Update student details (U)
-* ❌ Delete a student record (Learning) (D)
+* ❌ Delete a student record (D)
 * 💾 Store data in a local MongoDB database
 * 🖥️ Simple and user-friendly Streamlit interface
 
