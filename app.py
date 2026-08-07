@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from database import collection
+from database import update_record
 
 
 # -------------------------
@@ -10,7 +11,7 @@ from database import collection
 
 page = st.sidebar.radio(
     "Navigation",
-    ["Home","Add Records","Show Records","Find Records"]
+    ["Home","Add Records","Show Records","Find Records","Update Records"]
 )
 
 
@@ -121,7 +122,7 @@ elif page == "Show Records":
 # ==========================================================
 
 
-else:
+elif page == "Find Records":
 
     st.title("🔍 Find Records")
 
@@ -159,3 +160,90 @@ else:
     else:
         st.warning("No matching record found.")
 
+
+
+
+
+elif page == "Update Records":
+
+    st.title("✏️ Update Record")
+
+    st.write("""
+    Update an existing record stored in the MongoDB database.
+    Search for a record, modify the required fields, and save the changes.
+    """)
+
+    st.info("""
+    📌 Instructions:
+    - Enter the record name to search.
+    - Modify the required information.
+    - Click **Update** to save changes.
+    """)
+
+    search_name = st.text_input("Enter Name to Update")
+
+    # Search Button
+    if st.button("Search"):
+
+        record = collection.find_one({"name": search_name})
+
+        if record:
+            st.session_state.record = record
+            st.success("Record Found ✅")
+        else:
+            st.session_state.record = None
+            st.error("Record Not Found ❌")
+
+    # Agar record mil gaya ho
+    if "record" in st.session_state and st.session_state.record:
+
+        record = st.session_state.record
+
+        new_name = st.text_input(
+            "Name",
+            value=record["name"]
+        )
+
+        new_age = st.number_input(
+            "Age",
+            min_value=0,
+            max_value=100,
+            value=record["age"]
+        )
+
+        new_course = st.text_input(
+            "Course",
+            value=record["course"]
+        )
+
+        new_email = st.text_input(
+            "Email",
+            value=record["email"]
+        )
+
+        new_phone = st.number_input(
+            "Phone Number",
+            value=int(record["phone"])
+        )
+
+        if st.button("Update"):
+
+            update_record(
+                search_name,
+                new_name,
+                new_age,
+                new_course,
+                new_email,
+                new_phone
+            )
+
+            st.success("🎉 Record Updated Successfully!")
+
+            # Updated data dikhane ke liye
+            st.session_state.record = {
+                "name": new_name,
+                "age": new_age,
+                "course": new_course,
+                "email": new_email,
+                "phone": new_phone
+            }
