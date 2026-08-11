@@ -91,8 +91,12 @@ elif page == "Add Records":
             "phone" : stu_phone
         }
 
-        collection.insert_one(student)
-        st.success("Inserted Successfully")
+        try:
+            collection.insert_one(student)
+            st.success("Inserted Successfully")
+
+        except Exception as e:
+            st.error(f"Error: {e}")
 
 
 # ==========================================================
