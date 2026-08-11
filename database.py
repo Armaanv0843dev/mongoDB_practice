@@ -1,6 +1,7 @@
+import streamlit as st
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(st.secrets["mongo"]["uri"])
 
 db = client["management"]
 
