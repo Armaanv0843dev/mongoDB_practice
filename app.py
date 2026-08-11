@@ -25,6 +25,14 @@ if page == "Home":
 
     st.title("📌 MongoDB Record Management System")
 
+    st.write("### Why MongoDB?")
+
+    st.markdown("""
+    - I learned MongoDB to understand how modern applications store and manage data using a flexible NoSQL database. I wanted to gain practical experience with CRUD operations, database design, searching, updating, and deleting records.
+
+    - I also used MongoDB in a Record Management System built with Python and Streamlit, which helped me understand how a database connects with a real-world application.
+    """)
+
     st.markdown("""
     #### Welcome to the MongoDB Record Management System.
 
