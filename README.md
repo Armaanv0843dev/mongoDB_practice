@@ -90,7 +90,7 @@ management
 **Collection Name**
 
 ```text
-students
+student
 ```
 
 ### Sample Document
