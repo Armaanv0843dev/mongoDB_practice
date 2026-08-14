@@ -226,7 +226,7 @@ elif page == "Update Records":
 
     st.info("""
     📌 Instructions:
-    - Enter the record name to search.
+    - Enter the record exact name to search.
     - Modify the required information.
     - Click **Update** to save changes.
     """)
@@ -288,7 +288,7 @@ elif page == "Delete Records":
 
     st.warning("⚠️ Warning: Deleted records cannot be recovered.")
 
-    search_name = st.text_input("Enter Name to Search and Delete")
+    search_name = st.text_input("Enter Full Name to Search and Delete")
 
     if st.button("Search"):
         from database import collection  # direct access only for find_one here
